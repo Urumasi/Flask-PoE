@@ -1,0 +1,19 @@
+{% from "macros/fields.tmpl" import render_input_field, render_submit %}
+
+{% extends "shared/layout.tmpl" %}
+
+{% block title %}Transactions{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered">
+        <thead>
+            <tr><th>Time</th>{% for c in currency_types %}<th><img style="width: 24px;" src="{{ url_for('static', filename='img/'+c.alt_name+'.png') }}" alt="{{ c.name }}" title="{{ c.name }}"></th>{% endfor %}</tr>
+        </thead>
+        <tbody>
+            {% for t in trans %}
+                <tr><td>{{ t.time.strftime('%d/%m %H:%M') }}</td>{% for c in currency_types %}<td>{{ getattr(t, c.alt_name) or '-' }}</td>{% endfor %}</tr>
+            {% endfor %}
+            <form method="POST"><tr><td>{{ render_submit() }}</td>{% for c in currency_types %}<td>{{ render_input_field(getattr(form, c.alt_name)) }}</td>{% endfor %}</tr></form>
+        </tbody>
+    </table>
+{% endblock %}

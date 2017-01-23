@@ -1,0 +1,27 @@
+{% extends "shared/layout.tmpl" %}
+
+{% set currency = currency_types[cid] %}
+{% set latest = currency.get_latest() %}
+
+
+{% block title %}Currency Rates{% endblock %}
+
+{% block content %}
+    <h2 style="display: inline-block;"><a href="{{ url_for('currency.rates') }}">&laquo;</a> {{ currency.name }}</h2>
+    <a href="{{ url_for('currency.update_buy', curr=cid+1) }}" class="btn btn-info" style="margin-bottom: 15px; margin-left: 30px;">Update Buy</a>
+    <a href="{{ url_for('currency.update_sell', curr=cid+1) }}" class="btn btn-info" style="margin-bottom: 15px; margin-left: 30px;">Update Sell</a>
+    <table class="table table-bordered">
+        <thead>
+            <tr><th></th><th>Buy</th><th>Sell</th><th>Margin</th></tr>
+        </thead>
+        <tbody>
+            {% for c in currency_types %}
+                {% if c.cid-1 != cid %}
+                    {% set sell = getattr(latest, c.alt_name) %}
+                    {% set buy = getattr(c.get_latest(), currency.alt_name) %}
+                    <tr><td><img src="{{ url_for('static', filename='img/'+c.alt_name+'.png') }}" alt="{{ c.name }}" style="height: 32px;"> {{ c.name }}</td><td>{{ 1/Fraction(buy) if buy else '-' }}</td><td>{{ sell or '-' }}</td><td>{% if buy and sell %}{{ round(float(100*(1/Fraction(buy)-Fraction(sell))*Fraction(buy)), 2) }}%{% else %}-{% endif %}</td></tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

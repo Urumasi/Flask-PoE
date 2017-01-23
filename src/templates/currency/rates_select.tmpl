@@ -1,0 +1,11 @@
+{% extends "shared/layout.tmpl" %}
+
+{% block title %}Currency Rates{% endblock %}
+
+{% block content %}
+  <div style="width: 100%;">
+    {% for currency in currency_types %}
+      <a href="{{ url_for('currency.currency_rate', curr=currency.cid) }}"><div style="display: inline-block; width: 280px; color: black;"><img src="{{ url_for('static', filename="img/"+currency.alt_name+".png") }}" alt="{{ currency.name }}"> <strong style="vertical-align: middle;">{{ currency.name }}</strong></div></a>
+    {% endfor %}
+  </div>
+{% endblock %}
