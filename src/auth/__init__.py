@@ -1,1 +1,1 @@
-from . import views
+from . import views, currency_views

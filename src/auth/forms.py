@@ -1,8 +1,10 @@
 import re
 
+from src.data.models import CurrencyTypes
 from flask_wtf import Form
-from wtforms.fields import BooleanField, TextField, PasswordField
+from wtforms.fields import BooleanField, TextField, PasswordField, IntegerField, FieldList
 from wtforms.validators import EqualTo, Email, InputRequired, Length
+from fractions import Fraction
 
 from ..data.models import User
 from ..fields import Predicate
@@ -51,7 +53,7 @@ class RegistrationForm(Form):
         Predicate(safe_characters, message="Please use only letters (a-z) and numbers"),
         Predicate(username_is_available,
                   message="An account has already been registered with that username. Try another?"),
-        Length(min=6, max=30, message="Please use between 6 and 30 characters"),
+        Length(min=4, max=30, message="Please use between 4 and 30 characters"),
         InputRequired(message="You can't leave this empty")
     ])
 
@@ -66,3 +68,9 @@ class RegistrationForm(Form):
         Length(min=6, max=30, message="Please use between 6 and 30 characters"),
         InputRequired(message="You can't leave this empty")
     ])
+
+
+#class TransactionView(MethodView):
+#    field = FieldList(IntegerField())
+#    for c in CurrencyTypes:
+#        setattr(TransactionForm, c.alt_name, IntegerField())

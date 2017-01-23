@@ -4,7 +4,7 @@ from flask_wtf import Form
 from wtforms.fields import BooleanField, TextField, PasswordField, DateTimeField
 from wtforms.validators import EqualTo, Email, InputRequired, Length
 
-from ..data.models import User, LogUser
+from ..data.models import User
 from ..fields import Predicate
 
 def email_is_available(email):
@@ -22,19 +22,4 @@ def safe_characters(s):
     if not s:
         return True
     return re.match(r'^[\w]+$', s) is not None
-
-
-class LogUserForm(Form):
-
-    jmeno = TextField('Choose your username', validators=[
-        Predicate(safe_characters, message="Please use only letters (a-z) and numbers"),
-        Length(min=6, max=30, message="Please use between 6 and 30 characters"),
-        InputRequired(message="You can't leave this empty")
-    ])
-    prijmeni = TextField('Choose your username', validators=[
-        Predicate(safe_characters, message="Please use only letters (a-z) and numbers"),
-        Length(min=6, max=30, message="Please use between 6 and 30 characters"),
-        InputRequired(message="You can't leave this empty")
-    ])
-    pohlavi = BooleanField('Pohlavi')
 

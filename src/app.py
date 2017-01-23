@@ -46,6 +46,7 @@ def register_blueprints(app):
     app.register_blueprint(auth.views.blueprint)
     app.register_blueprint(public.views.blueprint)
     app.register_blueprint(services.views.blueprint, url_prefix="/services")
+    app.register_blueprint(auth.currency_views.blueprint)
 
 def register_errorhandlers(app):
     " Register custom error pages "

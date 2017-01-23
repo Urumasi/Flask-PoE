@@ -41,13 +41,27 @@ class Config(object):
     TEST_RECIPIENT = os.environ.get('APP_TEST_RECIPIENT')
     MAIL_DEFAULT_SENDER = INFO_ACCOUNT
 
+    POSTGRES_HOST="localhost"
+    POSTGRES_USER="root"
+    POSTGRES_PORT="5432"
+    POSTGRES_PASS="root"
+    POSTGRES_DB = 'poe'
+
+    SQLALCHEMY_DATABASE_URI = 'postgresql://%s:%s@%s:%s/%s' % (
+        POSTGRES_USER,
+        POSTGRES_PASS,
+        POSTGRES_HOST,
+        POSTGRES_PORT,
+        POSTGRES_DB
+    )
+
 class DevelopmentConfig(Config):
     ENV = 'dev'
     DEBUG = True
 
     DB_NAME = 'dev.db'
     DB_PATH = os.path.join(Config.PROJECT_ROOT, DB_NAME)
-    SQLALCHEMY_DATABASE_URI = URL(drivername='sqlite', database=DB_PATH)
+    #SQLALCHEMY_DATABASE_URI = URL(drivername='sqlite', database=DB_PATH)
 
 class TestConfig(Config):
     ENV = 'test'
@@ -60,7 +74,7 @@ class TestConfig(Config):
     APP_LOG_LEVEL = logging.WARN
 
     # Use in-memory test database
-    SQLALCHEMY_DATABASE_URI = URL(drivername='sqlite', database=None)
+    #SQLALCHEMY_DATABASE_URI = URL(drivername='sqlite', database=None)
 
     # For faster testing
     BCRYPT_LOG_ROUNDS = 1
@@ -75,7 +89,7 @@ class ProductionConfig(Config):
     APP_LOG_LEVEL = logging.INFO
 
     # This must be defined in Heroku or locally
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    #SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
 
     # Increase rounds for production instances
     # timeit Bcrypt().generate_password_hash('some12uihr3', 7) ~ 11.4ms per loop

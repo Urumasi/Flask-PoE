@@ -16,3 +16,5 @@ gunicorn==0.17.2
 psycopg2==2.5.2
 pyscss==1.2.0
 sqlalchemy==0.9.3
+selenium
+pyvirtualdisplay
